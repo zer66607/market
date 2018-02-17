@@ -49,6 +49,10 @@ def main():
             last_chat_text = last_update['message']['text']
             last_chat_name = last_update['message']['chat']['first_name']
 
+            # logs
+            print('user: ' + last_chat_name)
+            print('message ' + last_chat_text)
+
             if last_chat_text == start:
                 bot.send_message(last_chat_id, 'Приветствую тебя, ' + last_chat_name + start_msg)
 
