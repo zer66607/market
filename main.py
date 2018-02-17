@@ -1,5 +1,4 @@
 import requests
-import datetime
 
 from settings import token
 
