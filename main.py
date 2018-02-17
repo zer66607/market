@@ -10,7 +10,7 @@ class zerBot:
         self.api_url = 'https://api.telegram.org/bot{}/'.format(token)
 
     # Function get all updates in 24 hours
-    def get_all_updates(self, offset = None, timeout = 0):
+    def get_all_updates(self, offset = None, timeout = 30):
         method = 'getUpdates'
         params = {'timeout': timeout, 'offset': offset}
         resp = requests.get(self.api_url + method, params)
@@ -62,6 +62,8 @@ def main():
             bot.send_message(last_chat_id, last_chat_name + ', ты запросил курса биткойна')
         elif last_chat_text == eth:
             bot.send_message(last_chat_id, last_chat_name + ', ты запросил курса Эфириума')
+        else:
+            bot.send_message(last_chat_id, last_chat_name + ', к сожалению, таких команд я не понимаю!')
         new_offset = last_update_id + 1
 
 if __name__ == '__main__':
