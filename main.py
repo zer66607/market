@@ -1,12 +1,14 @@
 import requests
 
-from settings import token
+from token import token
+from config import start_msg
 
 class zerBot:
 
     def __init__(self, token):
         self.token = token
         self.api_url = 'https://api.telegram.org/bot{}/'.format(token)
+        self.api_coin_url = 'https://api.cryptonator.com/api/ticker'
 
     # Function get all updates in 24 hours
     def get_all_updates(self, offset = None, timeout = 30):
@@ -33,6 +35,11 @@ class zerBot:
         params = {'chat_id': chat_id, 'text': message}
         resp = requests.post(self.api_url + method, params)
         return resp
+    
+    def get_coin(self, ticker):
+        tick = requests.get(self.api_coin_url + ticker + '-usd')
+        tick_json = tick.json()['ticker']
+        return tick_json
 
 
 bot = zerBot(token)
@@ -56,13 +63,19 @@ def main():
         last_chat_name = last_update['message']['chat']['first_name']
 
         if last_chat_text == start:
-            bot.send_message(last_chat_id, last_chat_name + ', начинаем!')
+            bot.send_message(last_chat_id, 'Приветствую тебя, ' + last_chat_name + start_msg)
+
         elif last_chat_text == btc:
-            bot.send_message(last_chat_id, last_chat_name + ', ты запросил курса биткойна')
+            coin = bot.get_coin(btc)['price']
+            bot.send_message(last_chat_id, last_chat_name + ', курс Биткойна равен $' + coin)
+
         elif last_chat_text == eth:
-            bot.send_message(last_chat_id, last_chat_name + ', ты запросил курса Эфириума')
+            coin = bot.get_coin(eth)['price']
+            bot.send_message(last_chat_id, last_chat_name + ', курс Эфириума равен $' + coin)
+
         else:
             bot.send_message(last_chat_id, last_chat_name + ', к сожалению, таких команд я не понимаю!')
+
         new_offset = last_update_id + 1
 
 if __name__ == '__main__':
