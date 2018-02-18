@@ -49,8 +49,12 @@ def main():
             
             if 'message' in last_update:
                 last_chat_id = last_update['message']['chat']['id']
-                last_chat_text = last_update['message']['text']
                 last_chat_name = last_update['message']['chat']['first_name']
+
+                if 'text' in last_update['message']:
+                    last_chat_text = last_update['message']['text']
+                else:
+                    last_chat_text = help
 
                 # logs
                 print('user: ' + last_chat_name)
@@ -58,8 +62,12 @@ def main():
             
             elif 'edited_message' in last_update:
                 last_chat_id = last_update['edited_message']['chat']['id']
-                last_chat_text = last_update['edited_message']['text']
                 last_chat_name = last_update['edited_message']['chat']['first_name']
+
+                if 'text' in last_update['edited_message']:
+                    last_chat_text = last_update['edited_message']['text']
+                else:
+                    last_chat_text = help
                 
                 # logs
                 print('user: ' + last_chat_name)
