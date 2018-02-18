@@ -44,22 +44,27 @@ def main():
 
         for last_update in all_update:
             # print(last_update)
+
+            last_update_id = last_update['update_id']
             
             if 'message' in last_update:
-                last_update_id = last_update['update_id']
                 last_chat_id = last_update['message']['chat']['id']
                 last_chat_text = last_update['message']['text']
                 last_chat_name = last_update['message']['chat']['first_name']
+
+                # logs
+                print('user: ' + last_chat_name)
+                print('message ' + last_chat_text)
             
             elif 'edited_message' in last_update:
-                last_update_id = last_update['update_id']
                 last_chat_id = last_update['edited_message']['chat']['id']
                 last_chat_text = last_update['edited_message']['text']
                 last_chat_name = last_update['edited_message']['chat']['first_name']
+                
+                # logs
+                print('user: ' + last_chat_name)
+                print('edited_message ' + last_chat_text)
 
-            # logs
-            print('user: ' + last_chat_name)
-            print('message ' + last_chat_text)
 
             if last_chat_text == start:
                 bot.send_message(last_chat_id, 'Приветствую тебя, ' + last_chat_name + start_msg)
