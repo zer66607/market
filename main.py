@@ -43,11 +43,19 @@ def main():
         all_update = bot.get_all_updates(new_offset)
 
         for last_update in all_update:
-
-            last_update_id = last_update['update_id']
-            last_chat_id = last_update['message']['chat']['id']
-            last_chat_text = last_update['message']['text']
-            last_chat_name = last_update['message']['chat']['first_name']
+            # print(last_update)
+            
+            if 'message' in last_update:
+                last_update_id = last_update['update_id']
+                last_chat_id = last_update['message']['chat']['id']
+                last_chat_text = last_update['message']['text']
+                last_chat_name = last_update['message']['chat']['first_name']
+            
+            elif 'edited_message' in last_update:
+                last_update_id = last_update['update_id']
+                last_chat_id = last_update['edited_message']['chat']['id']
+                last_chat_text = last_update['edited_message']['text']
+                last_chat_name = last_update['edited_message']['chat']['first_name']
 
             # logs
             print('user: ' + last_chat_name)
