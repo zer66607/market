@@ -83,22 +83,25 @@ def main():
     while True:
         all_update = bot.get_all_updates(new_offset)
 
-        for last_update in all_update:
+        if all_update != []:
 
-            last_update_id = last_update['update_id']
+            for last_update in all_update:
 
-            if 'message' in last_update:
-                last_chat = bot.parse_last_update(last_update, 'message')
+                last_update_id = last_update['update_id']
 
-            elif 'edited_message' in last_update:
-                last_chat = bot.parse_last_update(
-                    last_update, 'edited_message')
-            # print(last_chat)
+                if 'message' in last_update:
+                    last_chat = bot.parse_last_update(
+                        last_update, 'message')
 
-            message = bot.create_message(last_chat)
-            bot.send_message(last_chat['id'], message)
+                elif 'edited_message' in last_update:
+                    last_chat = bot.parse_last_update(
+                        last_update, 'edited_message')
+                # print(last_chat)
 
-        new_offset = last_update_id + 1
+                message = bot.create_message(last_chat)
+                bot.send_message(last_chat['id'], message)
+
+            new_offset = last_update_id + 1
 
 
 if __name__ == '__main__':
