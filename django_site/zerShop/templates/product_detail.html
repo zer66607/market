@@ -1,2 +1,13 @@
-<h2>{{product.title}}</h2>
-<p>{{product.description}}</p>
+{% extends 'index.html' %}
+
+{% block content %}
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title"><a href="/product/{{product.id}}">{{product.title}}</a></h5>
+    <p class="card-text">{{product.description}}</p>
+    <a href="/category/{{product.category.id}}" class="card-link">{{product.category}}</a>
+    </div>
+</div>
+
+{% endblock %}

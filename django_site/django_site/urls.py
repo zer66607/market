@@ -20,6 +20,6 @@ from zerShop import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view(), name='index'),
-    path('<int:pk>', views.ProductDetail.as_view(), name='detail'),
-
+    path('product/<int:pk>', views.ProductDetail.as_view(), name='detail'),
+    path('category/<int:pk>', views.CategoryDetail.as_view(), name='category')
 ]

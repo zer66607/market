@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% for product in products %}
+{% for product in categorys.products.all %}
 
 <div class="card" style="width: 18rem;">
         <div class="card-body">
@@ -11,7 +11,7 @@
         <a href="/category/{{product.category.id}}" class="card-link">{{product.category}}</a>
         </div>
     </div>
-              
+
 {% endfor %}
 
 {% endblock %}
