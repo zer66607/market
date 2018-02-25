@@ -1,17 +1,40 @@
 {% extends 'index.html' %}
 
-{% block content %}
-
-{% for product in categorys.products.all %}
-
-<div class="card" style="width: 18rem;">
-        <div class="card-body">
-        <h5 class="card-title"><a href="/product/{{product.id}}">{{product.title}}</a></h5>
-        <p class="card-text">{{product.description}}</p>
-        <a href="/category/{{product.category.id}}" class="card-link">{{product.category}}</a>
-        </div>
+{% block product %}
+    <div class="row">
+        {% for product in category.products.all %}
+            <div class="col-4" style="margin:15px 0;">
+                <div class="card">
+                    <img class="card-img-top" src="/media/{{product.image}}" alt="{{product.title}}">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/product/{{product.id}}">{{product.title}}</a></h5>
+                    </div>
+                    <div class="card-footer ">
+                        <div class="row">
+                            <div class="col">
+                                <big class="text-muted">{{product.price}} руб.</big>
+                            </div>
+                            <div class="col text-right">
+                                <a href="#" class="btn btn-primary">Купить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 
-{% endfor %}
-
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.container').each(function(){
+                var highestBox = 0;
+                $('.card ', this).each(function(){
+                    if($(this).height() > highestBox) {
+                        highestBox = $(this).height();
+                    }
+                });
+                $('.card ',this).height(highestBox);
+            });
+        });
+    </script>
 {% endblock %}

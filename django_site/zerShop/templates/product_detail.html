@@ -1,13 +1,25 @@
 {% extends 'index.html' %}
 
-{% block content %}
-
-<div class="card" style="width: 18rem;">
-    <div class="card-body">
-    <h5 class="card-title"><a href="/product/{{product.id}}">{{product.title}}</a></h5>
-    <p class="card-text">{{product.description}}</p>
-    <a href="/category/{{product.category.id}}" class="card-link">{{product.category}}</a>
+{% block product %}
+    <div class="row">
+        <div class="col" style="margin:15px 0;">
+            <div class="card">
+                <img class="card-img-top" src="/media/{{product.image}}" alt="{{product.title}}">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="/product/{{product.id}}">{{product.title}}</a></h5>
+                    <p class="card-text">{{product.description}}</p>
+                </div>
+                <div class="card-footer ">
+                    <div class="row">
+                        <div class="col">
+                            <big class="text-muted">{{product.price}} руб.</big>
+                        </div>
+                        <div class="col text-right">
+                            <a href="#" class="btn btn-primary">Купить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
 {% endblock %}

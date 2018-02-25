@@ -16,10 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from zerShop import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.IndexView.as_view(), name='index'),
-    path('product/<int:pk>', views.ProductDetail.as_view(), name='detail'),
-    path('category/<int:pk>', views.CategoryDetail.as_view(), name='category')
+    path('', views.ProductList.as_view(), name='products'),
+    path('product/<int:pk>', views.ProductDetail.as_view(), name='product'),
+    path('category/<int:pk>', views.CategoryDetail.as_view(), name='category'),
+    path('categorys/', views.CategoryList.as_view(), name='categorys'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
