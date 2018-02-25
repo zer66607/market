@@ -22,10 +22,20 @@ class ProductDetail(generic.DetailView):
     context_object_name = 'product'
     model = Product
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorys'] = Category.objects.all()
+        return context
+
 class CategoryDetail(generic.DetailView):
     template_name = 'categoty_detail.html'
     context_object_name = 'category'
     model = Category
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorys'] = Category.objects.all()
+        return context
 
 class CategoryList(generic.ListView):
     template_name = 'category_list.html'
