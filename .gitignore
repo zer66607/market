@@ -1,2 +1,6 @@
-settings.py
+/settings.py
 __pycache__
+/env
+/env_dj
+migrations
+media
