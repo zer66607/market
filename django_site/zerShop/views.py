@@ -10,11 +10,10 @@ class ProductList(generic.ListView):
     context_object_name = 'products'
     model = Product
     paginate_by = 6
-    queryset = Product.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categorys'] = Category.objects.all()
+        context['categories'] = Category.objects.all()
         return context
 
 class ProductDetail(generic.DetailView):
@@ -24,7 +23,7 @@ class ProductDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categorys'] = Category.objects.all()
+        context['categories'] = Category.objects.all()
         return context
 
 class CategoryDetail(generic.DetailView):
@@ -34,10 +33,10 @@ class CategoryDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categorys'] = Category.objects.all()
+        context['categories'] = Category.objects.all()
         return context
 
 class CategoryList(generic.ListView):
     template_name = 'category_list.html'
-    context_object_name = 'categorys'
+    context_object_name = 'categories'
     model = Category
