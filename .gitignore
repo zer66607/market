@@ -1,2 +1,4 @@
-settings.py
+/settings.py
 __pycache__
+/env_dj
+/env

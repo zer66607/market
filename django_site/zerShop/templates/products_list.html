@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+
+{% block product %}
+    <div class="row">
+
+        {% for product in products %}
+            <div class="col-4" style="margin:15px 0; min-width: 300px;">
+                <div class="card">
+                    <a href="/product/{{product.id}}">
+                        <img class="card-img-top" src="/media/{{product.image}}" alt="{{product.title}}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/product/{{product.id}}">{{product.title}}</a></h5>
+                        <small class="text-muted"><a href="/category/{{product.category.id}}" class="card-link">{{product.category}}</a></small>
+                    </div>
+                    <div class="card-footer text-right">
+                        <big class="text-muted">{{product.price}} руб.</big><br><br>
+                        <a href="#" class="btn btn-primary">Купить</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script type="text/javascript">
+            $(document).ready(function(){
+                $('.container').each(function(){
+                    var highestBox = 0;
+                    $('.card ', this).each(function(){
+                        if($(this).height() > highestBox) {
+                            highestBox = $(this).height();
+                        }
+                    });
+                    $('.card ',this).height(highestBox);
+                });
+            });
+    </script>
+{% endblock %}
