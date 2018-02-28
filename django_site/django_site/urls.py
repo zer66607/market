@@ -27,5 +27,6 @@ urlpatterns = [
     path('product/new/', views.ProductCreate.as_view(), name='product_new'),
     path('product/<int:pk>/edit/', views.ProductEdit.as_view(), name='product_edit'),
     path('product/<int:pk>/delete/', views.ProductDelete.as_view(), name='product_delete'),
+    path('product/<int:pk>/order/', views.OrderFormView.as_view(), name='product_order'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

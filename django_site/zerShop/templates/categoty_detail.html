@@ -17,7 +17,7 @@
                                 <big class="text-muted">{{product.price}} руб.</big>
                             </div>
                             <div class="col text-right">
-                                <a href="#" class="btn btn-primary">Купить</a>
+                                <a href="{% url 'product_order' product.id %}" class="btn btn-primary">Купить</a>
                             </div>
                         </div>
                     </div>
