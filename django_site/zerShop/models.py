@@ -24,6 +24,10 @@ class Category(models.Model):
         return self.title
 
 class Order(models.Model):
-    product = models.ForeignKey(Product, on_delete='CASCADE')
+    product = models.ForeignKey(Product, on_delete='CASCADE', related_name='prod')
     customer_name = models.CharField(max_length=200)
     customer_phone = models.CharField(max_length=200)
+    customer_email = models.EmailField(max_length=200)
+
+    def __str__(self):
+        return self.customer_email

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .models import Product, Category, Order
 
 # Create your views here.
@@ -54,10 +54,18 @@ class ProductDelete(generic.DeleteView):
 class OrderFormView(generic.CreateView):
     model = Order
     template_name = 'product_order.html'
-    success_url = reverse_lazy('products')
-    fields = ['customer_name','customer_phone']
+    success_url = reverse_lazy('order_success')
+    fields = ['customer_name','customer_phone','customer_email']
 
     def form_valid(self, form):
         product = Product.objects.get(id=self.kwargs['pk'])
         form.instance.product = product
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product'] = Product.objects.get(id=self.kwargs['pk'])
+        return context
+
+class OrderSuccessView(generic.TemplateView):
+    template_name = 'order_success.html'
