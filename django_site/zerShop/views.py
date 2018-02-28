@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-
+from django.urls import reverse_lazy
 from .models import Product, Category
 
 # Create your views here.
@@ -36,7 +36,17 @@ class CategoryDetail(generic.DetailView):
         context['categories'] = Category.objects.all()
         return context
 
-class CategoryList(generic.ListView):
-    template_name = 'category_list.html'
-    context_object_name = 'categories'
-    model = Category
+class ProductCreate(generic.CreateView):
+    model = Product
+    template_name = 'product_new.html'
+    fields = '__all__'
+
+class ProductEdit(generic.UpdateView):
+    model = Product
+    template_name = 'product_new.html'
+    fields = '__all__'
+
+class ProductDelete(generic.DeleteView):
+    model = Product
+    template_name = 'product_delete.html'
+    success_url = reverse_lazy('products')

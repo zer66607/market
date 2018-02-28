@@ -6,12 +6,12 @@
         {% for product in products %}
             <div class="col-4" style="margin:15px 0; min-width: 300px;">
                 <div class="card">
-                    <a href="/product/{{product.id}}">
+                    <a href="{% url 'product' product.id %}">
                         <img class="card-img-top" src="/media/{{product.image}}" alt="{{product.title}}">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title"><a href="/product/{{product.id}}">{{product.title}}</a></h5>
-                        <small class="text-muted"><a href="/category/{{product.category.id}}" class="card-link">{{product.category}}</a></small>
+                        <h5 class="card-title"><a href="{% url 'product' product.id %}">{{product.title}}</a></h5>
+                        <small class="text-muted"><a href="{% url 'category' product.category.id %}" class="card-link">{{product.category}}</a></small>
                     </div>
                     <div class="card-footer text-right">
                         <big class="text-muted">{{product.price}} руб.</big><br><br>

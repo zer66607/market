@@ -5,11 +5,11 @@
         {% for product in category.products.all %}
             <div class="col-4" style="margin:15px 0; min-width: 300px;">
                 <div class="card">
-                    <a href="/product/{{product.id}}">
+                    <a href="{% url 'product' product.id %}">
                         <img class="card-img-top" src="/media/{{product.image}}" alt="{{product.title}}">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title"><a href="/product/{{product.id}}">{{product.title}}</a></h5>
+                        <h5 class="card-title"><a href="{% url 'product' product.id %}">{{product.title}}</a></h5>
                     </div>
                     <div class="card-footer ">
                         <div class="row">
