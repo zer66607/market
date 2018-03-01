@@ -3,8 +3,10 @@
 {% block product %}
     <div class="row">
         <div class="col" style="margin:15px 0;">
+                {% if request.user.is_superuser %}
                 <a class="btn btn-primary" href="{% url 'product_edit' product.pk %}">Править продукт</a>
                 <a class="btn btn-primary" href="{% url 'product_delete' product.pk %}">Удалить продукт</a>
+                {% endif %}
                 <div class="card">
                 <img class="card-img-top" src="/media/{{product.image}}" alt="{{product.title}}">
                 <div class="card-body">
