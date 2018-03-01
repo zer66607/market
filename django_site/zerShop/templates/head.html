@@ -3,7 +3,7 @@
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="index.html">zerShop</a>
+        <span class="navbar-brand">zerShop</span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -14,10 +14,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'products' %}">Home</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="category.html">Categories
-                        <span class="sr-only">(current)</span>
-                    </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'categories' %}">Categories</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'products' %}">Product</a>
@@ -54,20 +52,4 @@
             des morceaux de texte pour réaliser un livre spécimen de polices de texte...</p>
     </div>
 </section>
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{% url 'products' %}">Home</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="category.html">Category</a>
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    </div>
-</div>
 {% endblock head %}

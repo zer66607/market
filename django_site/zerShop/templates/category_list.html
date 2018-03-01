@@ -1,9 +1,17 @@
 {% extends 'index.html' %}
 
-{% block category %}
-    <ul class="list-group" style="margin:15px 0;">
-        {% for category in categories %}
-            <li class="list-group-item"><a href="{% url 'category' category.id %}">{{category.title}}</a></li>
-        {% endfor %}
-    </ul>
+{% block content %}
+<div class="col-12 col-sm-3">
+    <div class="card bg-light mb-3">
+        <div class="card-header bg-primary text-white text-uppercase">
+            <i class="fa fa-list"></i> Категории</div>
+        <ul class="list-group category_block">
+            {% for category in categories %}
+            <li class="list-group-item">
+                <a href="{% url 'category' category.id %}">{{category.title}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}

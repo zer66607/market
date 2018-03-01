@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
@@ -38,6 +39,11 @@ class CategoryDetail(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
+
+class CategoryList(generic.ListView):
+    template_name = 'category_list.html'
+    context_object_name = 'categories'
+    model = Category
 
 class ProductCreate(UserPassesTestMixin, generic.CreateView):
     model = Product

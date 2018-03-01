@@ -9,6 +9,7 @@ class Product(models.Model):
     category = models.ForeignKey('Category', on_delete='CASCADE', null=True, related_name='products')
     image = models.ImageField(upload_to='pics', null=True)
     price = models.IntegerField(default=0)
+    price_discounted = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.title
