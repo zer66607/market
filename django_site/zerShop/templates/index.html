@@ -1,77 +1,43 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <title>zerShop</title>
     <meta name="keywords" content="Телефоны, Ноутбуки, Игровые консоли">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href="/media/css/bootstrap_style.css" rel="stylesheet">
 </head>
+
+{% block head %}
+{% include 'head.html' %}
+{% endblock head %}
+
+{% block auth %} {% endblock %}
+
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <span class="navbar-brand">zerShop</span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'products' %}">Главная</a>
-                </li>
-                {% if request.user.is_superuser %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'product_new' %}">Добавить продукт</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/">Админка</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
-        <div>
-            {% if user.is_authenticated %}
-            <p>{{ user.username }}
-                <a href="{% url 'logout' %}">Выйти</a>
-            </p>
-            {% else %}
-            <a href="{% url 'signup' %}">Регистрация</a>
-            <a href="{% url 'login' %}">Войти</a>
-            {% endif %}
-        </div>
-    </nav>
-
-    <body>
-        {% block auth %} {% endblock %}
         <div class="row">
-            {% block content %}
-            <div class="col-2">
-                <ul class="list-group" style="margin:15px 0; min-width: 120px;">
-                    {% for category in categories %}
-                    <li class="list-group-item">
-                        <a href="{% url 'category' category.id %}">{{category.title}}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="col">
-                {% block product %}{% endblock %}
-            </div>
-            {% endblock %}
-        </div>
 
+            
+            {% block category %}
+            {% endblock category %}
+            {% block product %}
+            {% endblock product %}
+
+        
         {% if is_paginated %}
-        <div class="container">
+        <div class="col-12">
             <nav aria-label="pages">
-                <ul class="pagination justify-content-center">
+                <ul class="pagination">
                     {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Назад</a>
                     </li>
                     {% else %}
                     <li class="page-item disabled">
@@ -79,12 +45,12 @@
                     </li>
                     {% endif %} {% for i in paginator.page_range %} {% if page_obj.number == i %}
                     <li class="page-item active">
-                        <span class="page-link">{{ i }}
+                        <span class="page-link" href="#">{{ i }}
                             <span class="sr-only">(current)</span>
                         </span>
                     </li>
                     {% else %}
-                    <li>
+                    <li class="page-item">
                         <a class="page-link" href="?page={{ i }}">{{ i }}</a>
                     </li>
                     {% endif %} {% endfor %} {% if page_obj.has_next %}
@@ -100,6 +66,8 @@
             </nav>
         </div>
         {% endif %}
-
-    </body>
+    </div>
 </div>
+{% block footer %}
+{% endblock footer %}
+

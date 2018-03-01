@@ -1,38 +1,50 @@
 {% extends 'index.html' %}
+{% block category %}
 
-{% block product %}
-    <div class="row">
+<div class="col-12 col-sm-3">
+    <div class="card bg-light mb-3">
+        <div class="card-header bg-primary text-white text-uppercase">
+            <i class="fa fa-list"></i> Категории</div>
+        <ul class="list-group category_block">
+            {% for category in categories %}
+            <li class="list-group-item">
+                <a href="{% url 'category' category.id %}">{{category.title}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="card bg-light mb-3">
+        <div class="card-header bg-success text-white text-uppercase">Last product</div>
+        <div class="card-body">
+            <img class="img-fluid" src="https://dummyimage.com/600x400/55595c/fff" />
+            <h5 class="card-title">Product title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="bloc_left_price">99.00 $</p>
+        </div>
+    </div>
+</div>
 
-        {% for product in products %}
-            <div class="col-4" style="margin:15px 0; min-width: 300px;">
-                <div class="card">
-                    <a href="{% url 'product' product.id %}">
-                        <img class="card-img-top" src="/media/{{product.image}}" alt="{{product.title}}">
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="{% url 'product' product.id %}">{{product.title}}</a></h5>
-                        <small class="text-muted"><a href="{% url 'category' product.category.id %}" class="card-link">{{product.category}}</a></small>
-                    </div>
-                    <div class="card-footer text-right">
-                        <big class="text-muted">{{product.price}} руб.</big><br><br>
-                        <a href="{% url 'product_order' product.id %}" class="btn btn-primary">Купить</a>
-                    </div>
+{% for product in products %}
+
+<div class="col-12 col-md-6 col-lg-4">
+    <div class="card">
+        <img class="card-img-top" src="/media/{{product.image}}" alt="{{product.title}}">
+        <div class="card-body">
+            <h4 class="card-title">
+                <a href="{% url 'product' product.id %}" title="View Product">{{product.title}}</a>
+            </h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <div class="row">
+                <div class="col">
+                    <p class="btn btn-danger btn-block">{{product.price}} руб.</p>
+                </div>
+                <div class="col">
+                    <a href="{% url 'product_order' product.id %}" class="btn btn-success btn-block">Купить</a>
                 </div>
             </div>
-        {% endfor %}
+        </div>
     </div>
+</div>
+{% endfor %}
 
-    <script type="text/javascript">
-            $(document).ready(function(){
-                $('.container').each(function(){
-                    var highestBox = 0;
-                    $('.card ', this).each(function(){
-                        if($(this).height() > highestBox) {
-                            highestBox = $(this).height();
-                        }
-                    });
-                    $('.card ',this).height(highestBox);
-                });
-            });
-    </script>
 {% endblock %}
