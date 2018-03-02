@@ -6,12 +6,11 @@
     <title>zerShop</title>
     <meta name="keywords" content="Телефоны, Ноутбуки, Игровые консоли">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!------ Include the above in your HEAD tag ---------->
 
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
     <link href="/media/css/bootstrap_style.css" rel="stylesheet">
     <!-- <script type="text/javascript">
@@ -58,10 +57,22 @@
             </ul>
 
             <form class="form-inline my-2 my-lg-0">
-                {% if user.is_authenticated %} {% if request.user.is_superuser %}
-                <a class="btn btn-success btn-sm ml-3" href="{% url 'product_new' %}">Добавить продукт</a>
-                <a class="btn btn-success btn-sm ml-3" href="/admin/">Админка</a>
-                {% endif %}
+                {% if user.is_authenticated %}
+                <div class="btn-group">
+                    {% if request.user.is_superuser %}
+                    <button type="button" class="btn btn-success btn-sm ml-3 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{% url 'product_new' %}">Добавить продукт</a>
+                        <a class="dropdown-item" href="/admin/">Админка</a>
+                    </div>
+                    {% else %}
+                    <button type="button" class="btn btn-success btn-sm ml-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                    </button>
+                    {% endif %}
+                </div>
                 <a class="btn btn-success btn-sm ml-3" href="{% url 'logout' %}">Выйти</a>
                 {% else %}
                 <a class="btn btn-success btn-sm ml-3" href="{% url 'signup' %}">Регистрация</a>
@@ -79,109 +90,7 @@
             des morceaux de texte pour réaliser un livre spécimen de polices de texte...</p>
     </div>
 </section>
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="category.html">Category</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">Sub-category</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-12 col-sm-3">
-            <div class="card bg-light mb-3">
-                <div class="card-header bg-primary text-white text-uppercase">
-                    <i class="fa fa-list"></i> Categories</div>
-                <ul class="list-group category_block">
-                    {% for category in categories %}
-                    <li class="list-group-item">
-                        <a href="{% url 'category' category.id %}">{{category.title}}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="card bg-light mb-3">
-                <div class="card-header bg-success text-white text-uppercase">Last product</div>
-                <div class="card-body">
-                    <img class="img-fluid" src="https://dummyimage.com/600x400/55595c/fff" />
-                    <h5 class="card-title">Product title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <p class="bloc_left_price">99.00 $</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="row">
-                {% for product in category.products.all %}
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card">
-                        <img class="card-img-top" src="/media/{{product.image}}" alt="{{product.title}}">
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="{% url 'product' product.id %}" title="View Product">{{product.title}}</a>
-                            </h4>
-                            <p class="card-text">{{product.description|truncatewords:25}}</p>
-                            <div class="row">
-                                <div class="col">
-                                    <p class="btn btn-danger btn-block">{{product.price}} руб.</p>
-                                </div>
-                                <div class="col">
-                                    <a href="{% url 'product_order' product.id %}" class="btn btn-success btn-block">Add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %} {% if is_paginated %}
-                <div class="col-12">
-                    <nav aria-label="pages">
-                        <ul class="pagination">
-                            {% if page_obj.has_previous %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Назад</a>
-                            </li>
-                            {% else %}
-                            <li class="page-item disabled">
-                                <span class="page-link">Назад</span>
-                            </li>
-                            {% endif %} {% for i in paginator.page_range %} {% if page_obj.number == i %}
-                            <li class="page-item active">
-                                <span class="page-link" href="#">{{ i }}
-                                    <span class="sr-only">(current)</span>
-                                </span>
-                            </li>
-                            {% else %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                            </li>
-                            {% endif %} {% endfor %} {% if page_obj.has_next %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a>
-                            </li>
-                            {% else %}
-                            <li class="page-item disabled">
-                                <span class="page-link">Вперед</span>
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-
-    </div>
-</div>
+{% block auth %} {% endblock %} {% block content %} {% endblock %}
 <footer class="text-light">
     <div class="container">
         <div class="row">
@@ -236,13 +145,13 @@
                 <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
                 <ul class="list-unstyled">
                     <li>
-                        <i class="fa fa-home mr-2"></i> My company</li>
+                        <i class="fa fa-home mr-2"></i> zerShop</li>
                     <li>
-                        <i class="fa fa-envelope mr-2"></i> email@example.com</li>
+                        <i class="fa fa-envelope mr-2"></i> info@zershop.com</li>
                     <li>
-                        <i class="fa fa-phone mr-2"></i> + 33 12 14 15 16</li>
+                        <i class="fa fa-phone mr-2"></i> + 8 800 555 35 35</li>
                     <li>
-                        <i class="fa fa-print mr-2"></i> + 33 12 14 15 16</li>
+                        <i class="fa fa-print mr-2"></i> + 8 800 555 55 55</li>
                 </ul>
             </div>
             <div class="col-12 copyright mt-3">
