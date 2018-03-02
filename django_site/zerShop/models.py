@@ -10,13 +10,22 @@ class Product(models.Model):
     image = models.ImageField(upload_to='pics', null=True)
     price = models.IntegerField(default=0)
     price_discounted = models.IntegerField(null=True, blank=True)
+    colors = (
+        ('black', 'Черный'),
+        ('gray', 'Серый'),
+        ('yellow', 'Желтый'),
+        ('green', 'Зеленый'),
+        ('red', 'Красный'),
+        ('blue', 'Синий'),
+    )
+    color = models.CharField(max_length=30, choices=colors, null=True, blank=True)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('product', args=[str(self.id)])
-
+    
 class Category(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=5000)
