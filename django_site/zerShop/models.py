@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from datetime import datetime
 
 # Create your models here.
 
@@ -42,3 +43,25 @@ class Order(models.Model):
 
     def __str__(self):
         return self.customer_email
+
+class Review(models.Model):
+    user = models.ForeignKey('auth.User', on_delete='CASCADE')
+    product = models.ForeignKey('Product', on_delete='CASCADE')
+    content = models.TextField('Отзыв')
+    pub_date = models.DateTimeField('Дата добавления отзыва', default=datetime.now)
+    status = models.BooleanField('Показывать отзыв', default=False)
+    stars = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),        
+    )
+    rating = models.IntegerField('Рейтинг товара', choices=stars, default='5')
+
+    def __str__(self):
+        return self.content[0:200]
+
+    def get_absolute_url(self):
+        return reverse('product', args=[self.product.id])
+    

@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from .models import Category, Order, Product
+from .models import Category, Order, Product, Review
 
 # Create your views here.
 
@@ -28,6 +28,7 @@ class ProductDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        context['reviews'] = Review.objects.filter(product_id=self.kwargs['pk'])
         return context
 
 class CategoryDetail(generic.DetailView):
@@ -98,3 +99,22 @@ class SignUpView(generic.CreateView):
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
     context_object_name = 'sign'
+
+class AddReviewView(LoginRequiredMixin, generic.CreateView):
+    model = Review
+    template_name = 'review_add.html'
+    fields = ['content','rating']
+    login_url = 'login'
+
+    def form_valid(self, form):
+        product_id = Product.objects.get(id=self.kwargs['pk'])
+        user_id = self.request.user
+        form.instance.user = user_id
+        form.instance.product = product_id
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product_id'] = Product.objects.get(id=self.kwargs['pk'])
+        context['user_id'] = self.request.user
+        return context

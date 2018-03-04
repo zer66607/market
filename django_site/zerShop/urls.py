@@ -12,5 +12,5 @@ urlpatterns = [
     path('product/<int:pk>/order/', views.OrderFormView.as_view(), name='product_order'),
     path('product/order_success/', views.OrderSuccessView.as_view(), name='order_success'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
-    
+    path('product/<int:pk>/review/', views.AddReviewView.as_view(), name='add_review'),
 ]
