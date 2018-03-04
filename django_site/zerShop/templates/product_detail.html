@@ -81,15 +81,17 @@
                                 <br/>+8 800 555 35 35</li>
                         </ul>
                     </div>
-                    <div class="reviews_product p-3 mb-2 ">
-                        3 reviews
+                    <div class="reviews_product p-3 mb-2 "><br>
+                        {{ reviews }}<br>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         (4/5)
-                        <a class="pull-right" href="#reviews">View all reviews</a>
+                        {% if reviews %}
+                        <a class="pull-right" href="#reviews">Смотреть все отзывы</a>
+                        {% endif %}
                     </div>
                     <div class="datasheet p-3 mb-2 bg-info text-white">
                         <a href="" class="text-white">
@@ -124,20 +126,12 @@
                     <div class="review">
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                         <meta itemprop="datePublished" content="01-01-2016">{{ review.pub_date }}
-
+                        {% for x in review.rating_range %}
                         <span class="fa fa-star"></span>
-
+                        {% endfor %}
                         by {{ review.user }}
                         <p class="blockquote">
                             <p class="mb-0">{{ review.content }}</p>
-                        </p>
-                        <hr>
-                    </div>
-                    {% else %}
-                    <div class="review">
-                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                        <p class="blockquote">
-                            <p class="mb-0">Отзывов пока нет</p>
                         </p>
                         <hr>
                     </div>

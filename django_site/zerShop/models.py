@@ -26,6 +26,11 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('product', args=[str(self.id)])
+
+    def get_avg_rating(self):
+        avg_rating = Review.rating
+        return avg_rating
+
     
 class Category(models.Model):
     title = models.CharField(max_length=200)
@@ -46,7 +51,7 @@ class Order(models.Model):
 
 class Review(models.Model):
     user = models.ForeignKey('auth.User', on_delete='CASCADE')
-    product = models.ForeignKey('Product', on_delete='CASCADE')
+    product = models.ForeignKey('Product', on_delete='CASCADE', related_name='products')
     content = models.TextField('Отзыв')
     pub_date = models.DateTimeField('Дата добавления отзыва', default=datetime.now)
     status = models.BooleanField('Показывать отзыв', default=False)
@@ -64,4 +69,6 @@ class Review(models.Model):
 
     def get_absolute_url(self):
         return reverse('product', args=[self.product.id])
-    
+
+    def rating_range(self):
+        return range(self.rating)
