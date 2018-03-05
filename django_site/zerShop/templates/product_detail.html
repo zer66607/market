@@ -1,5 +1,10 @@
 {% extends 'base.html' %} {% block content %}
-
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">{{ product.title }}</h1>
+        <p class="lead text-muted mb-0">{{ product.description }}</p>
+    </div>
+</section>
 <div class="container">
     <div class="row">
         <div class="col">
@@ -81,15 +86,13 @@
                                 <br/>+8 800 555 35 35</li>
                         </ul>
                     </div>
-                    <div class="reviews_product p-3 mb-2 "><br>
-                        {{ reviews }}<br>
+                    <div class="reviews_product p-3 mb-2 ">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
-                        (4/5)
-                        {% if reviews %}
+                        (4/5) {% if reviews %}
                         <a class="pull-right" href="#reviews">Смотреть все отзывы</a>
                         {% endif %}
                     </div>
@@ -125,11 +128,9 @@
                     {% for review in reviews %} {% if review.status %}
                     <div class="review">
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                        <meta itemprop="datePublished" content="01-01-2016">{{ review.pub_date }}
-                        {% for x in review.rating_range %}
+                        <meta itemprop="datePublished" content="01-01-2016">{{ review.pub_date }} {% for x in review.rating_range %}
                         <span class="fa fa-star"></span>
-                        {% endfor %}
-                        by {{ review.user }}
+                        {% endfor %} by {{ review.user }}
                         <p class="blockquote">
                             <p class="mb-0">{{ review.content }}</p>
                         </p>
