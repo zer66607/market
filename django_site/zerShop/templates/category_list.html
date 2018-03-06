@@ -1,9 +1,32 @@
-{% extends 'index.html' %}
-
-{% block category %}
-    <ul class="list-group" style="margin:15px 0;">
-        {% for category in categorys %}
-            <li class="list-group-item"><a href="/category/{{category.id}}">{{category.title}}</a></li>
-        {% endfor %}
-    </ul>
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/">Home</a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-3">
+            <div class="card bg-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase">
+                    <i class="fa fa-list"></i> Категории</div>
+                <ul class="list-group category_block">
+                    {% for category in categories %}
+                    <li class="list-group-item">
+                        <a href="{% url 'category' category.id %}">{{category.title}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

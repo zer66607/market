@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>zerShop</title>
+    <meta name="keywords" content="Телефоны, Ноутбуки, Игровые консоли">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+        crossorigin="anonymous">
+    <link href="/media/css/bootstrap_style.css" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+</head>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'products' %}">zerShop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
+            <ul class="navbar-nav m-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'products' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'categories' %}">Categories
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'products' %}">Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0">
+                {% if user.is_authenticated %}
+                <div class="btn-group">
+                    {% if request.user.is_superuser %}
+                    <button type="button" class="btn btn-success btn-sm ml-3 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{% url 'product_new' %}">Добавить продукт</a>
+                        <a class="dropdown-item" href="/admin/">Админка</a>
+                    </div>
+                    {% else %}
+                    <button type="button" class="btn btn-success btn-sm ml-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                    </button>
+                    {% endif %}
+                </div>
+                <a class="btn btn-success btn-sm ml-3" href="{% url 'logout' %}">Выйти</a>
+                {% else %}
+                <a class="btn btn-success btn-sm ml-3" href="{% url 'signup' %}">Регистрация</a>
+                <a class="btn btn-success btn-sm ml-3" href="{% url 'login' %}">Войти</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</nav>
+{% block auth %} {% endblock %} {% block content %} {% endblock %}
+<footer class="text-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-lg-4 col-xl-3">
+                <h5>About</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <p class="mb-0">
+                    Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression.
+                </p>
+            </div>
+
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
+                <h5>Informations</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="">Link 4</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto">
+                <h5>Others links</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="">Link 4</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3">
+                <h5>Contact</h5>
+                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
+                <ul class="list-unstyled">
+                    <li>
+                        <i class="fa fa-home mr-2"></i> zerShop</li>
+                    <li>
+                        <i class="fa fa-envelope mr-2"></i> info@zershop.com</li>
+                    <li>
+                        <i class="fa fa-phone mr-2"></i> + 8 800 555 35 35</li>
+                    <li>
+                        <i class="fa fa-print mr-2"></i> + 8 800 555 55 55</li>
+                </ul>
+            </div>
+            <div class="col-12 copyright mt-3">
+                <p class="float-left">
+                    <a href="#">Back to top</a>
+                </p>
+                <p class="text-right text-muted">created with
+                    <i class="fa fa-heart"></i> by
+                    <a href="https://t-php.fr/43-theme-ecommerce-bootstrap-4.html">
+                        <i>t-php</i>
+                    </a> |
+                    <span>v. 1.0</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

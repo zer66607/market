@@ -1,25 +1,196 @@
-{% extends 'index.html' %}
-
-{% block product %}
+{% extends 'base.html' %} {% block content %}
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">{{ product.title }}</h1>
+        <p class="lead text-muted mb-0">{{ product.description }}</p>
+    </div>
+</section>
+<div class="container">
     <div class="row">
-        <div class="col" style="margin:15px 0;">
-            <div class="card">
-                <img class="card-img-top" src="/media/{{product.image}}" alt="{{product.title}}">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'category' product.category.id %}">{{product.category.title}}</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <!-- Image -->
+        <div class="col-12 col-lg-6">
+            {% if request.user.is_superuser %}
+            <a class="btn btn-primary" href="{% url 'product_edit' product.pk %}">Править продукт</a>
+            <a class="btn btn-primary" href="{% url 'product_delete' product.pk %}">Удалить продукт</a>
+            {% endif %}
+            <div class="card bg-light mb-3">
                 <div class="card-body">
-                    <h5 class="card-title"><a href="/product/{{product.id}}">{{product.title}}</a></h5>
-                    <p class="card-text">{{product.description}}</p>
+                    <a href="" data-toggle="modal" data-target="#productModal">
+                        <img class="img-fluid" src="/media/{{product.image}}" />
+                        <p class="text-center">Увеличить</p>
+                    </a>
                 </div>
-                <div class="card-footer ">
-                    <div class="row">
-                        <div class="col">
-                            <big class="text-muted">{{product.price}} руб.</big>
+            </div>
+        </div>
+
+        <!-- Add to cart -->
+        <div class="col-12 col-lg-6 add_to_cart_block">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <p class="price">{{product.price}} руб.</p>
+                    {% if product.price_discounted %}
+                    <p class="price_discounted">{{product.price_discounted}} руб.</p>
+                    {% endif %}
+                    <form method="get" action="cart.html">
+                        <div class="form-group">
+                            <label for="colors">Цвет: </label>
+                            <span> {{ product.get_color_display }}</span>
                         </div>
-                        <div class="col text-right">
-                            <a href="#" class="btn btn-primary">Купить</a>
+                        <div class="form-group">
+                            <label>Количество :</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus" data-field="">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control" id="quantity" name="quantity" min="1" max="100" value="1">
+                                <div class="input-group-append">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                        <a href="{% url 'product_order' product.id %}" class="btn btn-success btn-lg btn-block text-uppercase">
+                            <i class="fa fa-shopping-cart"></i> Добавить в корзину
+                        </a>
+                    </form>
+                    <div class="product_rassurance">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <i class="fa fa-truck fa-2x"></i>
+                                <br/>Fast delivery</li>
+                            <li class="list-inline-item">
+                                <i class="fa fa-credit-card fa-2x"></i>
+                                <br/>Secure payment</li>
+                            <li class="list-inline-item">
+                                <i class="fa fa-phone fa-2x"></i>
+                                <br/>+8 800 555 35 35</li>
+                        </ul>
+                    </div>
+                    <div class="reviews_product p-3 mb-2 ">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        (4/5) {% if reviews %}
+                        <a class="pull-right" href="#reviews">Смотреть все отзывы</a>
+                        {% endif %}
+                    </div>
+                    <div class="datasheet p-3 mb-2 bg-info text-white">
+                        <a href="" class="text-white">
+                            <i class="fa fa-file-text"></i> Download DataSheet</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
+
+    <div class="row">
+        <!-- Description -->
+        <div class="col-12">
+            <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase">
+                    <i class="fa fa-align-justify"></i> Описание</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        {{product.description}}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="col-12" id="reviews">
+            <div class="card border-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase">
+                    <i class="fa fa-comment"></i> Отзывы</div>
+                <div class="card-body">
+                    {% for review in reviews %} {% if review.status %}
+                    <div class="review">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        <meta itemprop="datePublished" content="01-01-2016">{{ review.pub_date }} {% for x in review.rating_range %}
+                        <span class="fa fa-star"></span>
+                        {% endfor %} by {{ review.user }}
+                        <p class="blockquote">
+                            <p class="mb-0">{{ review.content }}</p>
+                        </p>
+                        <hr>
+                    </div>
+                    {% endif %} {% empty %}
+                    <div class="review">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        <p class="blockquote">
+                            <p class="mb-0">Отзывов пока нет</p>
+                        </p>
+                        <hr>
+                    </div>
+                    {% endfor %}
+                    <a class="btn btn-primary" href="{% url 'add_review' product.pk %}">Добавить отзыв</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal image -->
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">{{product.title}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img class="img-fluid" src="/media/{{product.image}}" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        var quantity = 1;
+
+        $('.quantity-right-plus').click(function (e) {
+            e.preventDefault();
+            var quantity = parseInt($('#quantity').val());
+            $('#quantity').val(quantity + 1);
+        });
+
+        $('.quantity-left-minus').click(function (e) {
+            e.preventDefault();
+            var quantity = parseInt($('#quantity').val());
+            if (quantity > 1) {
+                $('#quantity').val(quantity - 1);
+            }
+        });
+
+    });
+
+</script> {% endblock %}
