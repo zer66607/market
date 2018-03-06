@@ -4,8 +4,12 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
+from rest_framework import generics, permissions
+from rest_framework.renderers import (BrowsableAPIRenderer, JSONRenderer,
+                                      StaticHTMLRenderer)
 
 from .models import Category, Order, Product, Review
+from .serializers import ProductSerializer
 
 # Create your views here.
 
@@ -118,3 +122,9 @@ class AddReviewView(LoginRequiredMixin, generic.CreateView):
         context['product_id'] = Product.objects.get(id=self.kwargs['pk'])
         context['user_id'] = self.request.user
         return context
+
+class ProductListAPI(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    renderer_classes = (JSONRenderer, BrowsableAPIRenderer, )
+    # permission_classes = (permissions.IsAdminUser, )

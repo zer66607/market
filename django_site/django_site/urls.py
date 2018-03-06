@@ -22,6 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls, name='admin'),
-    path('', include('zerShop.urls')),
+    path('accounts/signup/', views.SignUpView.as_view(), name='signup'),
+    path('products/', include('zerShop.urls')),
+    path('api/products/', views.ProductListAPI.as_view(), name='api_product_list'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
