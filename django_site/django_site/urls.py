@@ -25,5 +25,6 @@ urlpatterns = [
     path('accounts/signup/', views.SignUpView.as_view(), name='signup'),
     path('products/', include('zerShop.urls')),
     path('api/products/', views.ProductListAPI.as_view(), name='api_product_list'),
+    path('api/products/update/', views.ProductUpdateAPI.as_view(), name='api_product_update'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
